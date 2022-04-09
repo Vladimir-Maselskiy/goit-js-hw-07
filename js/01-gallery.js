@@ -1,17 +1,9 @@
 import { galleryItems } from "./gallery-items.js";
 // Change code below this line
 
-console.log(galleryItems);
-
-let currentImageLink;
+// console.log(galleryItems);
 
 const galleryDivRef = document.querySelector(".gallery");
-
-const getCurrentImageLink = (event) => {
-	currentImageLink = event.target;
-};
-
-galleryDivRef.addEventListener("click", getCurrentImageLink);
 
 const createImageGrid = () => {
 	const markup = galleryItems
@@ -45,13 +37,17 @@ galleryDivRef.addEventListener("click", (event) => {
         />
     </div>
     `);
+
 	const showModal = () => {
 		instance.show();
 	};
+
+	showModal();
+
 	const closeModal = () => {
 		instance.close();
+		modalRef.removeEventListener("click", closeModal);
 	};
-	showModal();
 
 	const onEscape = (event) => {
 		console.log(event.code);
@@ -62,7 +58,7 @@ galleryDivRef.addEventListener("click", (event) => {
 	};
 
 	const modalRef = document.querySelector(".modal");
-	modalRef.addEventListener("click", closeModal);
 
+	modalRef.addEventListener("click", closeModal);
 	window.addEventListener("keydown", onEscape);
 });
