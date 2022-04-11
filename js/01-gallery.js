@@ -29,36 +29,36 @@ const createImageGrid = () => {
 galleryDivRef.innerHTML = createImageGrid();
 
 galleryDivRef.addEventListener("click", (event) => {
-	const instance = basicLightbox.create(`
-    <div class="modal">
-        <img 
-            src="${event.target.dataset.source}"   
-            alt="${event.target.alt}" 
-        />
-    </div>
-    `);
+	if (event.target.tagName !== "IMG") return;
 
-	const showModal = () => {
-		instance.show();
-	};
-
-	showModal();
-
-	const closeModal = () => {
-		instance.close();
-		modalRef.removeEventListener("click", closeModal);
-	};
-
-	const onEscape = (event) => {
-		console.log(event.code);
-		if (event.code === "Escape") {
-			closeModal();
-			window.removeEventListener("keydown", onEscape);
+	const instance = basicLightbox.create(
+		`
+    		<div class="modal">
+        		<img 
+            		src="${event.target.dataset.source}"   
+            		alt="${event.target.alt}" 
+        		/>
+    		</div>
+    		`,
+		{
+			onShow: () => {
+				window.addEventListener("keydown", onEscape);
+			},
+			onClose: () => {
+				window.removeEventListener("keydown", onEscape);
+			},
 		}
-	};
+	);
+
+	instance.show();
 
 	const modalRef = document.querySelector(".modal");
 
-	modalRef.addEventListener("click", closeModal);
-	window.addEventListener("keydown", onEscape);
+	modalRef.addEventListener("click", instance.close);
+
+	function onEscape(event) {
+		if (event.code === "Escape") {
+			instance.close();
+		}
+	}
 });

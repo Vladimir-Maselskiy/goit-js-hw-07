@@ -10,16 +10,18 @@ const createImageGrid = () => {
 		.map((item) => {
 			const { preview: smallImage, original: largeImage, description } = item;
 			return `
-        <a onclick="return false" class="gallery__link" href="${largeImage}">
-            <img
-                class="gallery__image"
-                src="${smallImage}"
-                alt="${description}"
-                captionSelector = "1000"
+            <li>
+                <a onclick="return false" class="gallery__link" href="${largeImage}">
+                    <img
+                    class="gallery__image"
+                    src="${smallImage}"
+                    alt="${description}"
+                    captionSelector = "1000"
 
-            />
-        </a>
-    `;
+                    />
+                </a>
+            </li>
+                    `;
 		})
 		.join("");
 	return markup;
